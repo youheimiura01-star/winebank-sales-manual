@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WineBank 営業支援マニュアル</title>
+    <style>
+        :root {
+            --wine: #722F37;
+            --wine-dark: #4A1C23;
+            --wine-light: #A4424D;
+            --gold: #C8A96E;
+            --gold-light: #E8D5A8;
+            --bg: #FAFAF7;
+            --bg-card: #FFFFFF;
+            --text: #2D2D2D;
+            --text-light: #6B6B6B;
+            --border: #E8E4DE;
+            --success: #2E7D32;
+            --warning: #F57C00;
+            --info: #1565C0;
+            --sidebar-width: 300px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--wine-dark);
+            color: #fff;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            background: var(--wine);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .sidebar-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 2px;
+        }
+
+        .sidebar-header p {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 4px;
+        }
+
+        .sidebar-nav {
+            padding: 12px 0;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--gold-light);
+            border-left-color: var(--gold);
+        }
+
+        .sidebar-nav .chapter-title {
+            font-weight: 700;
+            font-size: 13px;
+            padding: 14px 20px 6px;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav .sub-item {
+            padding-left: 36px;
+            font-size: 12px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: var(--sidebar-width);
+            padding: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--wine-dark) 0%, var(--wine) 50%, var(--wine-light) 100%);
+            color: #fff;
+            padding: 60px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='80' fill='none' stroke='%23C8A96E' stroke-width='0.5' opacity='0.2'/%3E%3Ccircle cx='100' cy='100' r='60' fill='none' stroke='%23C8A96E' stroke-width='0.5' opacity='0.15'/%3E%3Ccircle cx='100' cy='100' r='40' fill='none' stroke='%23C8A96E' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E") center/contain no-repeat;
+            opacity: 0.3;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .hero .subtitle {
+            font-size: 16px;
+            color: var(--gold-light);
+            margin-bottom: 24px;
+        }
+
+        .hero .meta {
+            display: flex;
+            gap: 24px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .hero .meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Content Area */
+        .content {
+            max-width: 900px;
+            padding: 40px 48px 80px;
+        }
+
+        /* Chapter Sections */
+        .chapter {
+            margin-bottom: 60px;
+            scroll-margin-top: 20px;
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, var(--wine) 0%, var(--wine-dark) 100%);
+            color: #fff;
+            padding: 28px 32px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-header::after {
+            content: '';
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .chapter-header .chapter-num {
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .chapter-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .chapter-header .chapter-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 8px;
+        }
+
+        /* Section Headers */
+        h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--wine);
+            margin: 32px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gold-light);
+        }
+
+        h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--wine-dark);
+            margin: 24px 0 12px;
+        }
+
+        h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 16px 0 8px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin: 16px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card-accent {
+            border-left: 4px solid var(--wine);
+        }
+
+        .card-gold {
+            border-left: 4px solid var(--gold);
+            background: linear-gradient(135deg, #FFFDF5, #FFF);
+        }
+
+        .card-success {
+            border-left: 4px solid var(--success);
+            background: #F1F8F1;
+        }
+
+        .card-warning {
+            border-left: 4px solid var(--warning);
+            background: #FFF8F0;
+        }
+
+        .card-info {
+            border-left: 4px solid var(--info);
+            background: #F0F5FF;
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        thead th {
+            background: var(--wine);
+            color: #fff;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        thead th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: rgba(200, 169, 110, 0.06);
+        }
+
+        tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        tbody tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        /* Script Blocks */
+        .script-block {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 24px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-family: 'Hiragino Kaku Gothic ProN', monospace;
+            font-size: 14px;
+            line-height: 2;
+            white-space: pre-wrap;
+            position: relative;
+            border: 1px solid #333;
+        }
+
+        .script-block::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -1px;
+            left: 16px;
+            background: var(--gold);
+            color: var(--wine-dark);
+            padding: 2px 12px;
+            border-radius: 0 0 6px 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .script-block .highlight {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        .script-block .note {
+            color: #888;
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        /* Tags / Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-a { background: #FFEBEE; color: #C62828; }
+        .badge-b { background: #FFF3E0; color: #E65100; }
+        .badge-c { background: #E8F5E9; color: #2E7D32; }
+        .badge-wine { background: var(--wine); color: #fff; }
+        .badge-gold { background: var(--gold); color: var(--wine-dark); }
+
+        /* Accordion */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin: 12px 0;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: var(--bg-card);
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: rgba(200, 169, 110, 0.08);
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 20px;
+            color: var(--wine);
+            font-weight: 300;
+            transition: transform 0.3s;
+        }
+
+        .accordion.open .accordion-header::after {
+            content: '−';
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .accordion.open .accordion-body {
+            max-height: 5000px;
+        }
+
+        .accordion-content {
+            padding: 0 20px 20px;
+        }
+
+        /* Flow Diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .flow-step {
+            background: var(--wine);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+
+        .flow-step .step-num {
+            font-size: 11px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .flow-step .step-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+
+        .flow-step .step-desc {
+            font-size: 11px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        /* Quote / Memo */
+        .memo {
+            background: linear-gradient(135deg, #FFFDF5, #FFF8E8);
+            border: 1px solid var(--gold-light);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 16px 0;
+            position: relative;
+        }
+
+        .memo::before {
+            content: '30\79D2\3067\4F1D\3048\308B';
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background: var(--gold);
+            color: var(--wine-dark);
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .memo.important::before {
+            content: '\91CD\8981';
+            background: #C62828;
+            color: #fff;
+        }
+
+        .memo.tip::before {
+            content: '\30DD\30A4\30F3\30C8';
+            background: var(--info);
+            color: #fff;
+        }
+
+        .memo.ng::before {
+            content: 'NG';
+            background: #C62828;
+            color: #fff;
+        }
+
+        /* KPI Meter */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .kpi-card .kpi-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--wine);
+        }
+
+        .kpi-card .kpi-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Branch table */
+        .branch-table {
+            border: 2px solid var(--wine);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+
+        .branch-table .branch-header {
+            background: var(--wine);
+            color: #fff;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .branch-row {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .branch-row:last-child {
+            border-bottom: none;
+        }
+
+        .branch-trigger {
+            width: 200px;
+            padding: 12px 16px;
+            background: rgba(200, 169, 110, 0.08);
+            font-weight: 600;
+            font-size: 13px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .branch-response {
+            padding: 12px 16px;
+            font-size: 13px;
+            flex: 1;
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 200;
+            background: var(--wine);
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Scrollbar styling */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--wine-dark);
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--wine-light);
+            border-radius: 3px;
+        }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--wine);
+            color: #fff;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s;
+            z-index: 50;
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-left: 0;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .hero {
+                padding: 40px 24px;
+            }
+            .hero h1 {
+                font-size: 24px;
+            }
+            .content {
+                padding: 24px 20px 60px;
+            }
+            .flow {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            .branch-row {
+                flex-direction: column;
+            }
+            .branch-trigger {
+                width: 100%;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .sidebar, .mobile-toggle, .back-to-top {
+                display: none !important;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .chapter-header {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Mobile Toggle -->
+<button class="mobile-toggle" onclick="toggleSidebar()">&#9776;</button>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h1>WineBank</h1>
+        <p>営業支援マニュアル</p>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="chapter-title">第1章</div>
+        <a href="#ch1" onclick="closeSidebar()">サービス概要</a>
+        <div class="chapter-title">第2章</div>
+        <a href="#ch2" onclick="closeSidebar()">ターゲット選定30案</a>
+        <a href="#ch2-a" class="sub-item" onclick="closeSidebar()">A: 高収益・高感度業種</a>
+        <a href="#ch2-b" class="sub-item" onclick="closeSidebar()">B: 接待・資産運用関心</a>
+        <a href="#ch2-c" class="sub-item" onclick="closeSidebar()">C: 経営者属性ベース</a>
+        <div class="chapter-title">第3章</div>
+        <a href="#ch3" onclick="closeSidebar()">メリット訴求ガイド</a>
+        <div class="chapter-title">第4章</div>
+        <a href="#ch4" onclick="closeSidebar()">受付突破マニュアル</a>
+        <div class="chapter-title">第5章</div>
+        <a href="#ch5" onclick="closeSidebar()">断り切り返し対策</a>
+        <div class="chapter-title">第6章</div>
+        <a href="#ch6" onclick="closeSidebar()">トークスクリプト集</a>
+        <a href="#script-a" class="sub-item" onclick="closeSidebar()">A: 資産分散訴求型</a>
+        <a href="#script-b" class="sub-item" onclick="closeSidebar()">B: 接待・福利厚生型</a>
+        <a href="#script-c" class="sub-item" onclick="closeSidebar()">C: 情報提供型</a>
+        <a href="#script-d" class="sub-item" onclick="closeSidebar()">D: 実績データ型</a>
+        <a href="#script-e" class="sub-item" onclick="closeSidebar()">E: 業界トレンド型</a>
+        <a href="#script-f" class="sub-item" onclick="closeSidebar()">F: 限定案内型</a>
+        <div class="chapter-title">第7章</div>
+        <a href="#ch7" onclick="closeSidebar()">フォーム用文案</a>
+        <div class="chapter-title">第8章</div>
+        <a href="#ch8" onclick="closeSidebar()">資料送付後スクリプト</a>
+        <div class="chapter-title">第9章</div>
+        <a href="#ch9" onclick="closeSidebar()">KPI管理・運用</a>
+        <div class="chapter-title">付録</div>
+        <a href="#appendix" onclick="closeSidebar()">用語集・銘柄・法的注意</a>
+    </nav>
+</aside>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>WineBank 営業支援マニュアル</h1>
+        <p class="subtitle">全国の中小企業経営者へのアポイント取得率向上のための包括ガイド</p>
+        <div class="meta">
+            <span>対象: 電話営業スタッフ（インサイドセールス）</span>
+            <span>最終更新: 2025年2月</span>
+        </div>
+    </section>
+
+    <div class="content">
+
+<!-- ==================== 第1章 ==================== -->
+<section class="chapter" id="ch1">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 01</div>
+        <h2>WineBank サービス概要</h2>
+        <div class="chapter-desc">架電前に必ず理解しておくべきサービスの全体像</div>
+    </div>
+
+    <h3>1.1 会社概要</h3>
+    <table>
+        <tbody>
+            <tr><td style="width:160px;font-weight:600;">会社名</td><td>株式会社WineBank</td></tr>
+            <tr><td style="font-weight:600;">代表者</td><td>中野 邦人</td></tr>
+            <tr><td style="font-weight:600;">コンセプト</td><td>Wine × Technology</td></tr>
+            <tr><td style="font-weight:600;">事業承継</td><td>創業50年以上の札幌の酒販業者から全株式を取得し事業承継</td></tr>
+            <tr><td style="font-weight:600;">出資元</td><td>金融・不動産・広告・倉庫業界の大手企業</td></tr>
+            <tr><td style="font-weight:600;">正規代理店実績</td><td>五大シャトーの正規代理店経験あり</td></tr>
+        </tbody>
+    </table>
+
+    <div class="memo">
+        <p style="margin-top:8px;">「WineBankは、創業50年以上の老舗酒販事業を承継し、テクノロジーを活用してファインワイン（希少性の高いワイン）を金融資産として購入・保管・売却できるプラットフォームを運営している会社です。金融や不動産など大手企業からの出資を受けており、五大シャトーの正規代理店としての実績もあります。」</p>
+    </div>
+
+    <h3>1.2 ビジネスモデルの全体像</h3>
+    <h4>サービスの流れ（4ステップ）</h4>
+    <div class="card">
+        <div class="flow">
+            <div class="flow-step">
+                <div class="step-num">STEP 1</div>
+                <div class="step-title">購入</div>
+                <div class="step-desc">コンシェルジュが<br>最適ワインを選定</div>
+            </div>
+            <div class="flow-arrow">&#10132;</div>
+            <div class="flow-step">
+                <div class="step-num">STEP 2</div>
+                <div class="step-title">保管</div>
+                <div class="step-desc">専門倉庫で<br>最適環境管理</div>
+            </div>
+            <div class="flow-arrow">&#10132;</div>
+            <div class="flow-step">
+                <div class="step-num">STEP 3</div>
+                <div class="step-title">運用</div>
+                <div class="step-desc">アプリで<br>リアルタイム価格追跡</div>
+            </div>
+            <div class="flow-arrow">&#10132;</div>
+            <div class="flow-step" style="background: var(--gold); color: var(--wine-dark);">
+                <div class="step-num" style="color: var(--wine);">STEP 4</div>
+                <div class="step-title">売却 or 飲用</div>
+                <div class="step-desc" style="color: var(--wine-dark); opacity:0.7;">マーケットプレイスで<br>売却 or 配送して飲用</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-gold">
+        <h4>ポイント</h4>
+        <p>「投資として値上がり益を狙える」+「飲んで楽しむこともできる」= <strong>二刀流の資産</strong></p>
+        <p style="margin-top:8px; font-size:13px; color:var(--text-light);">収益構造: ワインの値上がり益がお客様の利益。WineBankの手数料は売却価格の<strong>10%</strong>（売却時のみ発生）</p>
+    </div>
+
+    <h3>1.3 投資プラン一覧</h3>
+    <table>
+        <thead>
+            <tr><th>プラン名</th><th>最低金額</th><th>特徴</th><th>想定ターゲット</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>トライアル</strong></td><td>50万円〜</td><td>入門向け、コンシェルジュ付き、保険付保</td><td>初めてワイン投資を試す方</td></tr>
+            <tr><td><strong>スタンダード</strong></td><td>100万円〜</td><td>基本プラン、会員限定販売、管理手数料優遇</td><td>一般的な経営者</td></tr>
+            <tr><td><strong>グロース（積立）</strong></td><td>月額5万円〜</td><td>毎月積立型、トライアル同等サービス</td><td>コツコツ投資志向の方</td></tr>
+            <tr><td><strong>プレミアム</strong></td><td>1,000万円以上</td><td>VIPカスタム対応、銘柄指定可能</td><td>高額資産家・本格投資家</td></tr>
+        </tbody>
+    </table>
+
+    <div class="memo tip">
+        <p style="margin-top:8px;"><strong>営業トークでの使い分け:</strong> まずは「月額5万円から始められる」グロースプランで敷居を下げる → 興味を示したら「100万円のスタンダードが最も人気」→ 資産規模の大きい経営者には「プレミアム」を提案</p>
+    </div>
+
+    <h3>1.4 アプリ・マーケットプレイスの機能</h3>
+    <div class="card">
+        <table>
+            <tbody>
+                <tr><td style="width:200px;font-weight:600;">リアルタイム価格追跡</td><td>保有ワインの時価変動を常時確認可能</td></tr>
+                <tr><td style="font-weight:600;">ポートフォリオ管理</td><td>保有ワインの一覧・評価額を一目で把握</td></tr>
+                <tr><td style="font-weight:600;">マーケットプレイス</td><td>ユーザー間でワインの売買が可能（流動性の確保）</td></tr>
+                <tr><td style="font-weight:600;">配送手配</td><td>好きなタイミングで自宅や贈答先へ配送指示</td></tr>
+                <tr><td style="font-weight:600;">クラウド保管管理</td><td>専用施設での保管状況を確認</td></tr>
+                <tr><td style="font-weight:600;">2段階認証</td><td>セキュリティ対策も万全</td></tr>
+                <tr><td style="font-weight:600;">会員限定コンテンツ</td><td>ワイン会・イベント情報</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>1.5 競合優位性と実績データ</h3>
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-value">+6.66%</div>
+            <div class="kpi-label">2024年度WineBank<br>買付ワイン収益率</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="color:var(--success);">+17.66pt</div>
+            <div class="kpi-label">業界平均(-11%)との差</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:22px;">15年超</div>
+            <div class="kpi-label">ワインが世界株式指数を<br>上回ったパフォーマンス期間</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:22px;">約50%</div>
+            <div class="kpi-label">WineBank CLUB<br>メニュー価格比</div>
+        </div>
+    </div>
+
+    <h3>1.6 よくある質問（社内向け）</h3>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Q: ワインは腐らないのですか？</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p>ファインワインは適切な温度・湿度管理のもとで長期保管すると、むしろ熟成により価値が上がります。WineBankの専門倉庫で最適環境を維持しています。保険・補償制度もあります。</p>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Q: 本当に売れるのですか？（換金性）</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p>WineBankのマーケットプレイスで売却可能です。コンシェルジュが売却のサポートもします。世界的にファインワイン市場は拡大しており、流動性は確保されています。</p>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Q: 株やFXと何が違うのですか？</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p>ワインは「実物資産」です。株式市場との相関が低く、分散投資に最適です。さらに、値下がりしても「飲んで楽しめる」という他の投資にはないメリットがあります。</p>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Q: なぜ値上がりするのですか？</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p>①生産量が限られている、②飲めば消費されるため供給が減り続ける、③世界的に需要が増加している、という3つの理由で価格が上昇しやすい構造にあります。</p>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Q: 法人で購入する場合、経費になりますか？</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p>接待目的での購入は接待交際費として経費計上できる可能性があります。ただし、具体的な税務処理はお客様の顧問税理士にご確認いただくようご案内ください。</p>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">Q: 怪しい商品ではないですか？</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p>WineBankは金融・不動産・広告・倉庫業界の大手企業から出資を受けており、五大シャトーの正規代理店実績もあります。保有ワインには保険・補償制度が適用されます。海外では富裕層の間で20年以上前から一般的な投資手法です。</p>
+        </div></div>
+    </div>
+</section>
+
+<!-- ==================== 第2章 ==================== -->
+<section class="chapter" id="ch2">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 02</div>
+        <h2>ターゲット選定ガイド（30案）</h2>
+        <div class="chapter-desc">成約確率の高いターゲットを効率的に選定し、無駄な架電を減らす</div>
+    </div>
+
+    <h3>2.1 選定の基本方針と優先度スコアリング</h3>
+
+    <h4>ターゲット選定の3つの軸</h4>
+    <table>
+        <thead><tr><th>軸</th><th>判断基準</th><th>確認方法</th></tr></thead>
+        <tbody>
+            <tr><td><strong>① 経済力</strong></td><td>法人として利益が出ている（営業利益率5%以上が目安）</td><td>帝国データバンク、東京商工リサーチ、決算公告</td></tr>
+            <tr><td><strong>② 親和性</strong></td><td>ワイン・高級嗜好品・資産運用への関心が高い</td><td>業種特性、経営者のSNS、経歴</td></tr>
+            <tr><td><strong>③ 活用動機</strong></td><td>接待需要、福利厚生、資産分散の具体的ニーズ</td><td>業種の商慣習、企業規模</td></tr>
+        </tbody>
+    </table>
+
+    <div class="card card-gold">
+        <h4>優先度スコアリング</h4>
+        <p><span class="badge badge-a">Aランク（最優先）</span> 3軸全て該当 → 即架電</p>
+        <p style="margin-top:6px;"><span class="badge badge-b">Bランク（優先）</span> 2軸該当 → 優先架電リストに追加</p>
+        <p style="margin-top:6px;"><span class="badge badge-c">Cランク（通常）</span> 1軸該当 → 通常リストに追加</p>
+    </div>
+
+    <h3 id="ch2-a">2.2 カテゴリA: 高収益・高感度業種（10案）</h3>
+    <table>
+        <thead><tr><th>No.</th><th>ターゲット業種</th><th>選定理由</th><th>推奨訴求</th><th>優先度</th></tr></thead>
+        <tbody>
+            <tr><td>1</td><td><strong>医療法人・クリニック経営者</strong></td><td>高収益、節税ニーズ高、ワイン嗜好親和性大</td><td>資産分散＋節税的活用</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>2</td><td><strong>歯科医院経営者（自由診療中心）</strong></td><td>高利益率、富裕層多い、資産分散ニーズ</td><td>トライアルから気軽に</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>3</td><td><strong>弁護士法人・法律事務所代表</strong></td><td>高単価、接待文化、資産管理意識高い</td><td>接待活用＋資産分散</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>4</td><td><strong>税理士法人・会計事務所代表</strong></td><td>資産運用知識あり理解早い、顧客紹介期待</td><td>実績データで論理訴求</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>5</td><td><strong>IT・SaaS企業経営者（成長期）</strong></td><td>キャッシュリッチ、新投資に積極的</td><td>アプリ利便性＋先進投資</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>6</td><td><strong>不動産会社経営者</strong></td><td>現物資産理解深い、接待文化あり</td><td>「第3の現物資産」</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>7</td><td><strong>建設会社経営者（年商5億以上）</strong></td><td>好況期の利益蓄積、接待需要大</td><td>接待＋法人資産</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>8</td><td><strong>M&Aアドバイザリー・コンサル</strong></td><td>高利益率、投資知識豊富</td><td>投資実績データ訴求</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>9</td><td><strong>美容外科・エステ系クリニック</strong></td><td>高収益、ラグジュアリー志向</td><td>ステータス＋資産形成</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>10</td><td><strong>投資会社・資産運用会社代表</strong></td><td>分散投資が本業レベル</td><td>ポートフォリオ理論</td><td><span class="badge badge-a">A</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="ch2-b">2.3 カテゴリB: 接待需要・資産運用関心業種（10案）</h3>
+    <table>
+        <thead><tr><th>No.</th><th>ターゲット業種</th><th>選定理由</th><th>推奨訴求</th><th>優先度</th></tr></thead>
+        <tbody>
+            <tr><td>11</td><td><strong>保険代理店経営者</strong></td><td>富裕層顧客への話題提供、自身の資産分散</td><td>顧客との会話ネタ＋自己投資</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>12</td><td><strong>証券IFA・独立系FP</strong></td><td>顧客提案の幅拡大ニーズ</td><td>顧客向け新商材</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>13</td><td><strong>広告代理店経営者</strong></td><td>接待文化根強い、ワイン感度高い</td><td>接待ワイン＝資産の一石二鳥</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>14</td><td><strong>人材紹介会社経営者</strong></td><td>高利益率（粗利30-35%）</td><td>成功報酬の運用先</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>15</td><td><strong>製薬・医療機器会社経営者</strong></td><td>接待需要大、高収益</td><td>海外接待＋資産分散</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>16</td><td><strong>輸入車ディーラー経営者</strong></td><td>ラグジュアリー親和性、富裕層顧客基盤</td><td>ステータス＋顧客イベント</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>17</td><td><strong>ジュエリー・高級時計店経営者</strong></td><td>高級現物資産への理解</td><td>現物資産の分散先</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>18</td><td><strong>飲食グループ（高級業態）</strong></td><td>ワイン実需、CLUB親和性極めて高い</td><td>CLUB会員＋仕入れ活用</td><td><span class="badge badge-a">A</span></td></tr>
+            <tr><td>19</td><td><strong>ホテル・旅館経営者</strong></td><td>飲料仕入れ実需、富裕層顧客</td><td>仕入れコスト削減＋資産化</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>20</td><td><strong>貿易会社経営者</strong></td><td>グローバル視点の資産分散</td><td>為替ヘッジ＋接待</td><td><span class="badge badge-b">B</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="ch2-c">2.4 カテゴリC: 経営者属性・嗜好ベース（10案）</h3>
+    <table>
+        <thead><tr><th>No.</th><th>ターゲット</th><th>選定理由</th><th>推奨訴求</th><th>優先度</th></tr></thead>
+        <tbody>
+            <tr><td>21</td><td><strong>2代目・3代目経営者</strong></td><td>資産保全意識、先代との差別化志向</td><td>新しい資産運用で経営革新</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>22</td><td><strong>IPO準備企業の経営者</strong></td><td>キャッシュ潤沢タイミング</td><td>IPO後の資産分散先</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>23</td><td><strong>会員制クラブ・ゴルフ場</strong></td><td>富裕層コミュニティ運営</td><td>会員向け特別イベント</td><td><span class="badge badge-c">C</span></td></tr>
+            <tr><td>24</td><td><strong>調剤薬局チェーン経営者</strong></td><td>安定高収益、若い経営者多い</td><td>長期積立（グロース）</td><td><span class="badge badge-b">B</span></td></tr>
+            <tr><td>25</td><td><strong>フランチャイズ本部経営者</strong></td><td>多店舗で利益蓄積</td><td>法人資産＋オーナー紹介</td><td><span class="badge badge-c">C</span></td></tr>
+            <tr><td>26</td><td><strong>出版社・メディア企業</strong></td><td>文化・嗜好品への感度高い</td><td>ライフスタイル提案</td><td><span class="badge badge-c">C</span></td></tr>
+            <tr><td>27</td><td><strong>設計・デザイン事務所</strong></td><td>審美眼、ライフスタイルこだわり</td><td>デザイン性・ブランド価値</td><td><span class="badge badge-c">C</span></td></tr>
+            <tr><td>28</td><td><strong>特許事務所・弁理士法人</strong></td><td>知的財産扱う専門性、高単価</td><td>知的な投資先</td><td><span class="badge badge-c">C</span></td></tr>
+            <tr><td>29</td><td><strong>老舗企業（創業30年以上）</strong></td><td>長期資産運用理解、企業文化</td><td>長期保有の安心感＋伝統</td><td><span class="badge badge-c">C</span></td></tr>
+            <tr><td>30</td><td><strong>VC・エンジェル投資家</strong></td><td>投資判断が本業、新アセット好奇心</td><td>新しい投資領域開拓</td><td><span class="badge badge-b">B</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>2.5 除外すべきターゲット</h3>
+    <div class="card card-warning">
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom:8px;">&#10060; 直近2期連続で赤字の企業</li>
+            <li style="margin-bottom:8px;">&#10060; 従業員5名以下 かつ 年商5,000万円未満の企業</li>
+            <li style="margin-bottom:8px;">&#10060; アルコールと相容れない業種</li>
+            <li style="margin-bottom:8px;">&#10060; 反社会的勢力チェック該当企業</li>
+            <li style="margin-bottom:8px;">&#10060; 過去に明確な取引拒否の意思表示があった企業</li>
+            <li>&#10060; 設立1年未満のスタートアップ</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== 第3章 ==================== -->
+<section class="chapter" id="ch3">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 03</div>
+        <h2>経営者向けメリット訴求ガイド</h2>
+        <div class="chapter-desc">経営者に「自分ごと」として刺さるメリットの伝え方</div>
+    </div>
+
+    <h3>3.1 訴求の5本柱</h3>
+    <table>
+        <thead><tr><th>柱</th><th>キーメッセージ</th><th>刺さる経営者</th></tr></thead>
+        <tbody>
+            <tr><td><strong>① 資産分散</strong></td><td>「株・不動産に次ぐ第3の現物資産」</td><td>投資経験豊富な経営者</td></tr>
+            <tr><td><strong>② 接待活用</strong></td><td>「最高の接待ツールが資産にもなる」</td><td>営業・対外関係重視</td></tr>
+            <tr><td><strong>③ 福利厚生</strong></td><td>「従業員への特別な報奨制度として」</td><td>人材確保に課題</td></tr>
+            <tr><td><strong>④ 実績・安定性</strong></td><td>「2024年+6.66%。株式市場との低相関」</td><td>データ重視・慎重派</td></tr>
+            <tr><td><strong>⑤ ステータス</strong></td><td>「経営者としての新しい嗜み」</td><td>ブランド志向</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3.2 経営者タイプ別アプローチ</h3>
+    <table>
+        <thead><tr><th>タイプ</th><th>特徴・口癖</th><th>推奨訴求順序</th><th>推奨プラン</th></tr></thead>
+        <tbody>
+            <tr><td><strong>数字重視型</strong></td><td>「利回りは？」「根拠は？」</td><td>④実績 → ①資産分散</td><td>スタンダード</td></tr>
+            <tr><td><strong>人脈重視型</strong></td><td>「誰が使ってる？」</td><td>②接待 → ⑤ステータス</td><td>スタンダード</td></tr>
+            <tr><td><strong>人材重視型</strong></td><td>「採用が大変」</td><td>③福利厚生 → ⑤ステータス</td><td>グロース</td></tr>
+            <tr><td><strong>慎重型</strong></td><td>「リスクは？」</td><td>④実績 → ①資産分散</td><td>トライアル(50万円)</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3.3 暗記すべき主要データ</h3>
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-value">+6.66%</div>
+            <div class="kpi-label">WineBank 2024年度実績</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="color:#C62828;">-11%</div>
+            <div class="kpi-label">ワイン業界平均 2024年</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:20px;">月額5万円〜</div>
+            <div class="kpi-label">グロースプラン最低額</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:20px;">売却時10%</div>
+            <div class="kpi-label">WineBank手数料</div>
+        </div>
+    </div>
+
+    <h3>3.4 法人としてのワイン活用メリット</h3>
+
+    <div class="accordion open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">(a) 接待交際費としての活用</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <ul>
+                <li>法人がワインを接待目的で購入 → 接待交際費として経費計上の可能性</li>
+                <li>資本金1億円以下の中小企業: 年間800万円までの接待交際費が損金算入可能</li>
+                <li>系列レストラン（APICIUS等）での接待利用シナリオ</li>
+                <li>WineBank CLUB: メニュー価格の約50%でワイン購入 → 接待コスト大幅削減</li>
+            </ul>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">(b) 法人資産としての保有</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <ul>
+                <li>株式・不動産との低相関で法人資産のリスク分散</li>
+                <li>インフレヘッジとしての機能（実物資産の強み）</li>
+                <li>保険・補償制度による安全性</li>
+                <li>マーケットプレイスで流動性確保</li>
+            </ul>
+        </div></div>
+    </div>
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">(c) 福利厚生・社員報奨</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <ul>
+                <li>成績優秀者への報奨品としてワイン贈呈</li>
+                <li>社内イベント（忘年会・周年記念等）での活用</li>
+                <li>社員のエンゲージメント向上</li>
+            </ul>
+        </div></div>
+    </div>
+
+    <div class="memo important">
+        <p style="margin-top:8px;">税務・会計処理については「具体的な処理方法はお客様の顧問税理士にご確認ください」と必ず伝えること。断定的な税務アドバイスは行わない。</p>
+    </div>
+</section>
+
+<!-- ==================== 第4章 ==================== -->
+<section class="chapter" id="ch4">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 04</div>
+        <h2>受付突破マニュアル</h2>
+        <div class="chapter-desc">社長（意思決定者）に電話をつないでもらうための具体的テクニック</div>
+    </div>
+
+    <h3>4.1 受付突破の基本原則5箇条</h3>
+    <div class="card">
+        <table>
+            <thead><tr><th>原則</th><th>内容</th><th>具体例</th></tr></thead>
+            <tbody>
+                <tr><td><strong>① 営業と思わせない</strong></td><td>「ご確認」「お伝えしたい件」等</td><td>&#10005;「ご案内です」→ &#9675;「確認したい件が」</td></tr>
+                <tr><td><strong>② 受付を味方に</strong></td><td>丁寧に協力者として接する</td><td>「お手数おかけします」</td></tr>
+                <tr><td><strong>③ 堂々と話す</strong></td><td>自信あるトーン、語尾を下げる</td><td>早口にならない</td></tr>
+                <tr><td><strong>④ 用件に具体性</strong></td><td>曖昧だと営業と見抜かれる</td><td>「法人の資産運用レポートの件で」</td></tr>
+                <tr><td><strong>⑤ 社長名を名指し</strong></td><td>事前に代表者名を調査</td><td>「△△社長に」と名前を出す</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>4.2 パターン別突破フレーズ集</h3>
+
+    <h4>パターン1: 「資料の件」アプローチ（最も効果的）</h4>
+    <div class="script-block" data-label="トークスクリプト">「お世話になっております。WineBankの○○と申します。
+ 先日、△△社長宛にお送りしたお資料の件でお電話いたしました。
+ お繋ぎいただけますでしょうか。」</div>
+    <div class="memo tip"><p style="margin-top:8px;">「送った資料の確認」は営業ではなく事務連絡に聞こえる。事前に資料送付しておくこと。</p></div>
+
+    <h4>パターン2: 「業界の情報提供」アプローチ</h4>
+    <div class="script-block" data-label="トークスクリプト">「お世話になっております。WineBankの○○と申します。
+ △△社長に、○○業界の経営者の方に今注目されている
+ 法人向け資産運用の最新情報をお伝えしたくお電話いたしました。
+ お繋ぎいただけますでしょうか。」</div>
+
+    <h4>パターン3: 「紹介・ご縁」アプローチ</h4>
+    <div class="script-block" data-label="トークスクリプト">「お世話になっております。WineBankの○○と申します。
+ □□様からご紹介をいただきまして、
+ △△社長にぜひお時間をいただきたいとのことでお電話しております。」</div>
+    <div class="memo ng"><p style="margin-top:8px;">実際に紹介がある場合のみ使用。虚偽の紹介は絶対にNG。</p></div>
+
+    <h4>パターン4: 「確認事項」アプローチ</h4>
+    <div class="script-block" data-label="トークスクリプト">「お世話になっております。WineBankの○○と申します。
+ △△社長に先日ご案内した件について、
+ 1点確認させていただきたいことがございまして。
+ お繋ぎいただけますでしょうか。」</div>
+
+    <h4>パターン5: 「伝言依頼」アプローチ（リカバリー用）</h4>
+    <div class="script-block" data-label="トークスクリプト">「承知いたしました。
+ では恐れ入りますが、WineBankの○○からお電話があった旨、
+ △△社長にお伝えいただけますでしょうか。
+ 社長のご都合のよいお時間に改めてお電話いたしますので、
+ ご都合の良い時間帯がもしわかりましたらお教えいただけると助かります。」</div>
+
+    <h3>4.3 受付タイプ別対応</h3>
+    <table>
+        <thead><tr><th>タイプ</th><th>特徴</th><th>対策</th></tr></thead>
+        <tbody>
+            <tr><td><strong>秘書タイプ</strong></td><td>「どういったご用件？」と丁寧にブロック</td><td>用件の重要性を具体的に伝える。メモを残してもらう</td></tr>
+            <tr><td><strong>ガードマンタイプ</strong></td><td>「営業はお断り」と即拒否</td><td>時間帯変更して再架電。別ルート（フォーム、DM）を検討</td></tr>
+            <tr><td><strong>聞き取りタイプ</strong></td><td>「詳しく教えて」と用件を聞く</td><td>簡潔で魅力的なフック。数字や具体性を入れる</td></tr>
+            <tr><td><strong>判断委任タイプ</strong></td><td>「確認します」と社長に聞いてくれる</td><td>最大チャンス。明確かつ簡潔に用件を伝える</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.4 時間帯・曜日別攻略法</h3>
+    <table>
+        <thead><tr><th>時間帯</th><th>特徴</th><th>おすすめ度</th></tr></thead>
+        <tbody>
+            <tr><td><strong>8:30 - 9:30</strong></td><td>始業直後。社長が自席にいる可能性高い</td><td>&#11088;&#11088;&#11088;&#11088;&#11088;</td></tr>
+            <tr><td><strong>11:30 - 12:00</strong></td><td>昼休み前。午前の仕事が一段落</td><td>&#11088;&#11088;&#11088;&#11088;</td></tr>
+            <tr><td><strong>13:00 - 13:30</strong></td><td>昼休み明け。再始動のタイミング</td><td>&#11088;&#11088;&#11088;</td></tr>
+            <tr><td><strong>17:00 - 18:00</strong></td><td>終業間際。受付帰宅で社長直通の可能性</td><td>&#11088;&#11088;&#11088;&#11088;</td></tr>
+        </tbody>
+    </table>
+    <div class="memo tip"><p style="margin-top:8px;"><strong>最も繋がりやすい曜日: 水曜・木曜</strong>。月曜午前・金曜午後は避ける（会議・外出が多い）。</p></div>
+</section>
+
+<!-- ==================== 第5章 ==================== -->
+<section class="chapter" id="ch5">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 05</div>
+        <h2>断り切り返し・「よくわからない」対策</h2>
+        <div class="chapter-desc">社長と話せた後の最大の壁を乗り越えるテクニック</div>
+    </div>
+
+    <h3>5.1 断り文句9パターンと切り返し</h3>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">①「興味がない」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p><strong>本音:</strong> 情報不足 / 面倒 / ワイン投資を知らない</p>
+            <div class="script-block" data-label="切り返し">「おっしゃる通りで、ワインの投資と聞いてもピンとこないのが普通です。
+ 実は私どもがご提案しているのは、ワインというよりも
+ 法人の資産分散の新しい選択肢でして。
+ 2024年に+6.66%の実績を出している現物資産なんですが、
+ 30秒だけお時間いただけませんか？」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">②「忙しい」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p><strong>本音:</strong> 本当に忙しい / とりあえずの断り文句</p>
+            <div class="script-block" data-label="切り返し">「お忙しいところ大変失礼いたしました。
+ では、1分で要点だけお伝えしてもよろしいでしょうか。」
+
+<span class="note">（それでもNGの場合）</span>
+「承知いたしました。では、資料だけでもお送りさせていただけませんか。
+ お手すきの際にご覧いただければ幸いです。
+ 改めて来週お電話してもよろしいでしょうか。」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">③「ワインは飲まない」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p><strong>本音:</strong> 飲用と投資を混同している</p>
+            <div class="script-block" data-label="切り返し">「実は、飲まない方にこそおすすめなんです。
+ ワイン投資は飲まずに保管して値上がりを待つもので、
+ むしろ飲まない方が利益になります。
+ 不動産を買って住まずに貸すのと同じイメージです。
+ お時間をいただければ、仕組みをご説明いたします。」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">④「投資はやらない主義」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p><strong>本音:</strong> リスク回避志向 / 過去に失敗経験</p>
+            <div class="script-block" data-label="切り返し">「投資には慎重でいらっしゃるんですね。
+ 実はこのサービスは、いわゆる投資というよりも
+ 法人資産の保全・分散のお手伝いです。
+ 過去15年間、株式市場が乱高下する中でも安定的に推移してきた実績があります。
+ しかも、仮に値下がりしてもワインとして楽しめるので、
+ ゼロになるリスクがないのが特徴です。」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">⑤「うちは規模が小さいから」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p><strong>本音:</strong> 金額面の不安</p>
+            <div class="script-block" data-label="切り返し">「実は月額5万円からの積立プランもございまして、
+ 中小企業の社長様にこそ人気のサービスなんです。
+ 少額からスタートして、様子を見ながら
+ 増やしていかれる方が多いですよ。」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">⑥「資料送っておいて」→ これはチャンス！</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <p><strong>本音:</strong> とりあえず断っている</p>
+            <div class="script-block" data-label="切り返し">「ありがとうございます。すぐにお送りいたします。
+ 資料のポイントを一言だけ申し上げると、
+ 2024年に+6.66%の実績を出した法人向け資産サービスの内容です。
+ 来週の○曜日に、ご感想を伺うお電話をさせていただいてもよろしいでしょうか。」</div>
+            <div class="memo important"><p style="margin-top:8px;">必ずフォロー日時を設定する。「資料送って」は断りではなくチャンス。</p></div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">⑦「他で投資をやっている」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <div class="script-block" data-label="切り返し">「素晴らしいですね。投資に積極的でいらっしゃるんですね。
+ ファインワインは株や不動産と値動きが異なるため、
+ 既存のポートフォリオに加えることでリスク分散の効果が期待できます。
+ 5分だけお時間いただいて、既存投資との組み合わせ方をご説明させていただけませんか。」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">⑧「怪しい」</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <div class="script-block" data-label="切り返し">「ごもっともです。ワイン投資と聞いて警戒されるのは当然だと思います。
+ WineBankは創業50年以上の酒販業から事業承継した会社で、
+ 金融や不動産の大手企業からも出資を受けています。
+ 五大シャトーの正規代理店でもございます。
+ 保有ワインには保険・補償制度もございますので、
+ まずは会社概要だけでもご覧いただけませんか。」</div>
+        </div></div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">⑨「検討する」→ 日時を確定させる！</div>
+        <div class="accordion-body"><div class="accordion-content">
+            <div class="script-block" data-label="切り返し">「ありがとうございます。ご検討いただけるとのこと、嬉しいです。
+ ご検討の参考になる詳しい実績資料をお送りいたしますね。
+ 来週の○曜日の○時頃に、改めてお電話させていただいてもよろしいでしょうか。
+ その際にご不明点にもお答えいたします。」</div>
+            <div class="memo important"><p style="margin-top:8px;">「検討する」と言われたら、必ず具体的な日時を設定する。「またお電話します」（日時なし）はNG。</p></div>
+        </div></div>
+    </div>
+
+    <h3>5.2 「よくわからない」の3パターンと対応</h3>
+
+    <div class="card card-accent">
+        <h4>パターンA: 仕組みがわからない</h4>
+        <p style="color:var(--text-light); margin-bottom:12px;">ワイン投資の概念自体が新しい</p>
+        <div class="script-block" data-label="3ステップ簡略説明法">「とてもシンプルな仕組みでして、3ステップです。
+
+ ステップ1: ワインを買います
+ ステップ2: 専門の倉庫で保管します
+ ステップ3: 値上がりしたらアプリで売ります
+
+ 不動産投資のワイン版とお考えください。
+ 買って、管理して、値上がりを待って売る。
+ ただし不動産より遥かに少額から始められます。」</div>
+    </div>
+
+    <div class="card card-accent">
+        <h4>パターンB: なぜワインなのかがわからない</h4>
+        <p style="color:var(--text-light); margin-bottom:12px;">投資対象としての合理性への疑問</p>
+        <div class="script-block" data-label="3つの構造的理由">「なぜワインかと申しますと、3つの理由があります。
+
+ 1つ目：ワインは生産量が限られていて、増産できません。
+ 2つ目：飲めばなくなる消費財なので、供給が毎年減ります。
+ 3つ目：アジアや中東の富裕層の需要が急増しています。
+
+ 供給が減って需要が増える。だから価格が上がりやすいんです。
+ 世界の富裕層の間では20年以上前から定番の投資先なんです。」</div>
+    </div>
+
+    <div class="card card-accent">
+        <h4>パターンC: 自分に関係があるかわからない</h4>
+        <p style="color:var(--text-light); margin-bottom:12px;">自分事化できていない → 相手の状況に合わせて活用シーンを提示</p>
+        <div class="script-block" data-label="接待が多い経営者の場合">「△△社長のように取引先との接待が多い方にとっては、
+ 接待で使うワインがそのまま資産にもなるというメリットがあります。
+ 使えば接待ツール、使わなければ値上がり資産。
+ 接待交際費の一部を、消えないお金に変えるイメージです。」</div>
+    </div>
+
+    <h3>5.4 NG対応集</h3>
+    <div class="card card-warning">
+        <table>
+            <thead><tr><th>NG行為</th><th>理由</th><th>正しい対応</th></tr></thead>
+            <tbody>
+                <tr><td>&#10060; 「今買わないと損です」</td><td>煽り営業は信頼を失う</td><td>&#9675; 「ご都合の良いタイミングで」</td></tr>
+                <tr><td>&#10060; 「必ず儲かります」</td><td><strong>法律違反</strong></td><td>&#9675; 「過去の実績では〜」</td></tr>
+                <tr><td>&#10060; 相手の断りを否定</td><td>プライドを傷つける</td><td>&#9675; 「おっしゃる通りです。その上で〜」</td></tr>
+                <tr><td>&#10060; ワイン知識ひけらかし</td><td>経営者のプライドを傷つける</td><td>&#9675; 相手のレベルに合わせて説明</td></tr>
+                <tr><td>&#10060; 長時間引き止め</td><td>「しつこい」で二度と取次ぎなし</td><td>&#9675; 潔く引き、次回接点を確保</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ==================== 第6章 ==================== -->
+<section class="chapter" id="ch6">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 06</div>
+        <h2>電話営業トークスクリプト集</h2>
+        <div class="chapter-desc">実践で即使える6パターンのスクリプト</div>
+    </div>
+
+    <div class="memo tip">
+        <p style="margin-top:8px;"><strong>スクリプト使用の注意:</strong> 台本ではなくガイドライン。棒読みNG。相手の反応で第5章の切り返しと組み合わせる。声は明るく落ち着いて、早口にならない。</p>
+    </div>
+
+    <!-- Script A -->
+    <h3 id="script-a">6.2 【アポ取得】A: 資産分散・投資訴求型</h3>
+    <p><span class="badge badge-wine">ターゲット</span> 投資経験のある経営者、数字重視型<br>
+    <span class="badge badge-gold">推奨業種</span> 不動産会社、投資会社、税理士法人、M&Aアドバイザリー</p>
+
+    <h4>受付突破パート（30秒）</h4>
+    <div class="script-block" data-label="受付突破">「お世話になっております。
+ WineBankの○○と申します。
+ △△社長に、法人向けの資産運用サービスについて
+ お伝えしたい件がございまして、お電話いたしました。
+ お繋ぎいただけますでしょうか。」</div>
+
+    <h4>社長接続 → 導入パート（30秒）</h4>
+    <div class="script-block" data-label="導入">「△△社長、お忙しいところ恐れ入ります。
+ WineBankの○○と申します。
+ 本日は、法人の資産運用に関する新しい選択肢について
+ お伝えしたくお電話いたしました。
+ 1分だけよろしいでしょうか。」</div>
+
+    <h4>本題パート（60秒）</h4>
+    <div class="script-block" data-label="本題">「ありがとうございます。
+ 2024年、多くの投資商品がマイナスとなる中で、
+ <span class="highlight">+6.66%のリターンを記録した資産クラス</span>をご存知でしょうか。
+
+ <span class="note">（間を取る）</span>
+
+ 実は、ファインワイン、いわゆる高級ワインです。
+ 過去15年間で世界株式指数を上回る実績があり、
+ 株式や不動産とは値動きが異なるため、
+ 法人資産のリスク分散に最適な現物資産として
+ 今、多くの経営者の方に注目されています。
+
+ 私どもWineBankは、このファインワインを
+ 購入・保管・売却まで一貫して行えるプラットフォームを
+ 運営しておりまして、<span class="highlight">100万円からスタート</span>できます。」</div>
+
+    <h4>クロージングパート（30秒）</h4>
+    <div class="script-block" data-label="クロージング">「具体的な実績データと、△△社長の会社に合わせた
+ 活用プランをご説明させていただきたいのですが、
+ 来週、15分ほどお時間をいただけませんか。
+
+ ○日の午前と△日の午後、<span class="highlight">どちらがご都合よろしいでしょうか。</span>」</div>
+
+    <div class="branch-table">
+        <div class="branch-header">分岐対応</div>
+        <div class="branch-row"><div class="branch-trigger">「面白そうだね」</div><div class="branch-response">→ 「ありがとうございます。では○日の○時でいかがでしょうか」（即日程確定）</div></div>
+        <div class="branch-row"><div class="branch-trigger">「もう少し教えて」</div><div class="branch-response">→ 第3章の説得材料を使って補足 → 日程提案</div></div>
+        <div class="branch-row"><div class="branch-trigger">「興味ない」</div><div class="branch-response">→ 第5章パターン①の切り返しへ</div></div>
+        <div class="branch-row"><div class="branch-trigger">「忙しい」</div><div class="branch-response">→ 第5章パターン②の切り返しへ</div></div>
+        <div class="branch-row"><div class="branch-trigger">「資料送って」</div><div class="branch-response">→ 第5章パターン⑥へ。資料送付＋フォロー日程設定</div></div>
+    </div>
+
+    <!-- Script B -->
+    <h3 id="script-b">6.3 【アポ取得】B: 接待・福利厚生訴求型</h3>
+    <p><span class="badge badge-wine">ターゲット</span> 接待需要が多い業種の経営者<br>
+    <span class="badge badge-gold">推奨業種</span> 広告代理店、建設会社、製薬会社、人材紹介</p>
+
+    <h4>本題パート（60秒）</h4>
+    <div class="script-block" data-label="本題">「ありがとうございます。
+ △△社長は、お取引先との接待でワインをお使いになることはございますか。
+
+ <span class="note">（相手の回答を聞く）</span>
+
+ 実は今、接待で使ったワインが、
+ 同時に法人の資産にもなるサービスがありまして、ご案内させていただいております。
+
+ WineBankでワインを購入いただくと、接待でお使いいただけるのはもちろん、
+ 使わなかったワインは専門倉庫で保管され、値上がり益を期待できる資産となります。
+ <span class="highlight">2024年の実績では+6.66%</span>です。
+
+ さらに、WineBank会員になると系列のフレンチレストランで
+ <span class="highlight">ワインをメニュー価格の約半額</span>で購入できます。
+ 接待コストの削減と資産形成を同時に実現できるサービスです。」</div>
+
+    <h4>クロージング</h4>
+    <div class="script-block" data-label="クロージング">「よろしければ、六本木のWineBank Terraceか、日比谷のAPICIUSで、
+ お食事も兼ねて詳しくお話しさせていただけませんか。
+ もちろん、まずはオンラインでのご説明でも構いません。
+ 来週の○日と△日、どちらがご都合よろしいでしょうか。」</div>
+
+    <!-- Script C -->
+    <h3 id="script-c">6.4 【アポ取得】C: 情報提供・関係構築型</h3>
+    <p><span class="badge badge-wine">ターゲット</span> 慎重派の経営者、初回アプローチ<br>
+    <span class="badge badge-gold">推奨業種</span> 老舗企業、医療法人、調剤薬局、2代目3代目経営者</p>
+
+    <h4>本題パート（60秒）</h4>
+    <div class="script-block" data-label="本題">「ありがとうございます。
+ 最近、○○業界の経営者の方の間で、
+ 従来の株式や不動産に加えて、
+ ファインワインを法人資産として保有する動きが広がっているのをご存知でしょうか。
+
+ ファインワインは過去15年間で世界株式指数を上回るパフォーマンスを記録しており、
+ 株式市場との相関が低いため、リスク分散の手段として非常に有効です。
+
+ 私どもWineBankは、購入から保管、売却までを一括で行えるプラットフォームで、
+ <span class="highlight">月額5万円の積立からスタート</span>できます。
+ コンシェルジュがワインの選定も全て行いますので、
+ ワインの知識がなくても全く問題ありません。」</div>
+
+    <!-- Script D -->
+    <h3 id="script-d">6.5 【資料送付目的】D: 実績データ訴求型</h3>
+    <div class="script-block" data-label="全体フロー（60秒）">「△△社長、お忙しいところ恐縮です。WineBankの○○と申します。
+ 本日は1点だけ、お伝えしたいデータがございまして。
+
+ 2024年、多くの資産クラスが苦戦する中で、
+ <span class="highlight">+6.66%のリターン</span>を記録した現物資産があります。
+ ファインワインです。過去15年でも世界株式指数を上回っています。
+
+ この実績データと、法人での活用方法をまとめたレポートを
+ お送りしたいのですが、よろしいでしょうか。
+
+ メールとお手紙、どちらがご覧になりやすいですか。
+ <span class="note">（メールアドレスまたは住所を取得）</span>
+ ありがとうございます。本日中にお送りいたします。
+ 来週○曜日に、ご感想を伺うお電話をさせてください。」</div>
+
+    <!-- Script E -->
+    <h3 id="script-e">6.6 【資料送付目的】E: 業界トレンド情報提供型</h3>
+    <div class="script-block" data-label="全体フロー（60秒）">「△△社長、WineBankの○○です。
+ 今、○○業界の経営者の方の間で、
+ 法人資産の新しい分散先としてファインワイン投資が注目されているのをご存知ですか。
+
+ 同業の経営者の方からも
+ 『こういう情報は知らなかった』とご好評いただいている
+ レポートがございまして、△△社長にもお届けしたいのですが、よろしいでしょうか。
+
+ △△社長のメールアドレスをお教えいただけますか。
+ ○○業界の事例も含めた内容になっておりますので、ぜひお目通しください。
+ 来週改めてお電話いたします。」</div>
+
+    <!-- Script F -->
+    <h3 id="script-f">6.7 【資料送付目的】F: 限定案内・希少性訴求型</h3>
+    <div class="script-block" data-label="全体フロー（60秒）">「△△社長、WineBankの○○です。
+ 本日は特別なご案内でして、
+ <span class="highlight">五大シャトーの正規ルートからの限定入荷</span>がございました。
+
+ WineBankは五大シャトーの正規代理店でもありまして、
+ 通常は手に入らないヴィンテージを限定数だけご案内できる状況です。
+
+ 投資としても非常に有望な銘柄でして、
+ 詳しいご案内資料をお送りしたいのですが、よろしいでしょうか。
+
+ ご興味の有無に関わらず、ワイン市場の最新動向も含めた資料ですので、
+ お目通しだけでもいただけると幸いです。」</div>
+</section>
+
+<!-- ==================== 第7章 ==================== -->
+<section class="chapter" id="ch7">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 07</div>
+        <h2>問い合わせフォーム用文案</h2>
+        <div class="chapter-desc">電話と並行して使う非対面アプローチの文面</div>
+    </div>
+
+    <h3>7.1 フォーム営業の基本ルール</h3>
+    <div class="card">
+        <table>
+            <tbody>
+                <tr><td style="width:160px;font-weight:600;">件名が命</td><td>開封率の80%は件名で決まる。具体的な数字や業界名を入れる</td></tr>
+                <tr><td style="font-weight:600;">本文300文字以内</td><td>長すぎると読まれない。簡潔に要点だけ</td></tr>
+                <tr><td style="font-weight:600;">数字を1つ入れる</td><td>「+6.66%」等の具体的な数字が興味を引く</td></tr>
+                <tr><td style="font-weight:600;">CTAを明確に</td><td>「何をしてほしいか」を明確に書く</td></tr>
+                <tr><td style="font-weight:600;">送信時間帯</td><td>火〜木の9:00-10:00が最も開封率が高い</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>7.2 文案A: 経営者向け資産運用提案型</h3>
+    <div class="card card-gold">
+        <h5>件名: 【法人の資産運用】2024年+6.66%を記録した新しい現物資産について</h5>
+        <div class="script-block" data-label="本文">△△株式会社
+代表取締役 △△様
+
+突然のご連絡失礼いたします。
+株式会社WineBankの○○と申します。
+
+弊社は、ファインワイン（希少性の高い高級ワイン）を
+法人の資産として購入・保管・売却できるプラットフォームを運営しております。
+
+2024年度の弊社買付ワインは+6.66%の収益率を記録しており、
+株式や不動産とは値動きが異なるため、
+法人資産の分散先として多くの経営者様にご活用いただいております。
+
+月額5万円からの積立プランもございます。
+
+ご興味がございましたら、詳しい実績レポートをお送りいたします。
+本メールへのご返信、またはお電話にてお気軽にお申し付けください。
+
+株式会社WineBank ○○</div>
+    </div>
+
+    <h3>7.3 文案B: 接待・ビジネス活用提案型</h3>
+    <div class="card card-gold">
+        <h5>件名: 【接待コスト削減×資産形成】御社のワイン活用のご提案</h5>
+        <div class="script-block" data-label="本文">△△株式会社
+代表取締役 △△様
+
+突然のご連絡失礼いたします。
+株式会社WineBankの○○と申します。
+
+「接待で使うワインが、同時に法人の資産にもなる」
+そんなサービスをご存知でしょうか。
+
+弊社WineBankでは、法人様がファインワインを購入し、
+接待にお使いいただくことはもちろん、
+使わなかったワインは資産として値上がり益を期待できます。
+（2024年度実績：+6.66%）
+
+さらに会員様は、弊社系列のフレンチレストランにて
+ワインをメニュー価格の約50%でご購入いただけます。
+
+接待コストの削減と資産形成を同時に実現するサービスです。
+詳しいご案内資料をお送りいたしますので、
+ご興味がございましたらお気軽にご返信ください。
+
+株式会社WineBank ○○</div>
+    </div>
+
+    <h3>7.4 文案C: 業界別カスタマイズ型テンプレート</h3>
+    <div class="card card-gold">
+        <h5>件名: 【○○業界の経営者様へ】法人向けワイン資産運用のご案内</h5>
+        <p style="margin: 8px 0; color: var(--text-light);">[ ] 内を業種に合わせて差し替え</p>
+        <table>
+            <thead><tr><th>業種</th><th>カスタマイズ文</th></tr></thead>
+            <tbody>
+                <tr><td><strong>医療法人</strong></td><td>「収益性の高い医療法人様にとって、株式・不動産に次ぐ第3の現物資産として注目されております。」</td></tr>
+                <tr><td><strong>IT企業</strong></td><td>「成長著しいIT企業の経営者様の間で、テクノロジーを活用したワイン投資が話題になっております。」</td></tr>
+                <tr><td><strong>不動産会社</strong></td><td>「現物資産の運用に長けた不動産業界の経営者様にとって、新たな柱として最適です。」</td></tr>
+                <tr><td><strong>建設会社</strong></td><td>「好況期の利益を有効活用されたい建設業界の経営者様にご案内しております。」</td></tr>
+                <tr><td><strong>飲食業</strong></td><td>「仕入れと資産形成を同時に実現できるサービスをご案内しております。」</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ==================== 第8章 ==================== -->
+<section class="chapter" id="ch8">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 08</div>
+        <h2>資料送付後アポイント取得スクリプト</h2>
+        <div class="chapter-desc">資料送付後のフォローで確実にアポイントに繋げる</div>
+    </div>
+
+    <h3>8.1 フォローコールの基本</h3>
+    <table>
+        <thead><tr><th>送付方法</th><th>フォロータイミング</th><th>理由</th></tr></thead>
+        <tbody>
+            <tr><td><strong>メール送付</strong></td><td>2〜3営業日後</td><td>目を通す時間を確保しつつ忘れられる前に</td></tr>
+            <tr><td><strong>郵送送付</strong></td><td>5〜7営業日後</td><td>配送日数＋目を通す時間</td></tr>
+        </tbody>
+    </table>
+
+    <div class="card card-info">
+        <h4>心構え3箇条</h4>
+        <ol>
+            <li>「資料は届きましたか」だけで終わらせない → 必ず次のアクションに繋げる</li>
+            <li>1回で取れなくても3回までフォロー → 間隔をあけて粘り強く</li>
+            <li>相手が見ていなくても焦らない → 電話口で要点を伝え、再確認依頼</li>
+        </ol>
+    </div>
+
+    <h3>8.2 スクリプトG: 反応確認・深堀り型</h3>
+    <h4>導入</h4>
+    <div class="script-block" data-label="導入">「△△社長、お世話になっております。WineBankの○○でございます。
+ 先日、法人向けワイン資産運用のレポートをお送りさせていただいたのですが、
+ お手元に届いておりますでしょうか。」</div>
+
+    <div class="branch-table">
+        <div class="branch-header">3分岐対応</div>
+        <div class="branch-row">
+            <div class="branch-trigger">分岐①<br>資料を見た</div>
+            <div class="branch-response">
+                「ご覧いただきありがとうございます。特にどの部分にご関心を持たれましたか。」<br>
+                → 関心ポイントを深堀り → 「資料には書ききれなかった具体的な活用プランがございます。15分ほどお時間いただけませんか」
+            </div>
+        </div>
+        <div class="branch-row">
+            <div class="branch-trigger">分岐②<br>見ていない</div>
+            <div class="branch-response">
+                「では資料のポイントだけ30秒でお伝えしてもよろしいですか。2024年に+6.66%を記録した法人向けの現物資産サービスです。」<br>
+                → 「お手すきの際にご覧ください。来週○曜日に改めてお電話します」
+            </div>
+        </div>
+        <div class="branch-row">
+            <div class="branch-trigger">分岐③<br>興味なし</div>
+            <div class="branch-response">
+                「承知しました。ちなみに御社では接待でワインをお使いになることは？」<br>
+                → 「ある」なら接待訴求へ切り替え / 「ない」なら丁重にお礼して終了
+            </div>
+        </div>
+    </div>
+
+    <h3>8.3 スクリプトH: 追加情報提供・限定提案型</h3>
+    <div class="script-block" data-label="全体フロー">「△△社長、お世話になっております。WineBankの○○でございます。
+ 先日お送りした資料に加えまして、
+ △△社長に特にお伝えしたい内容がございましてお電話いたしました。
+
+ 実は今月、<span class="highlight">五大シャトーの正規ルートから限定数のヴィンテージが入荷</span>しておりまして、
+ 通常では手に入らない銘柄をご案内できる状況です。
+
+ 投資対象としても非常に有望な銘柄でして、
+ この限定入荷のご案内も含めて、対面で15分ほどお話しさせていただけませんか。
+
+ 来週の○日か△日、いかがでしょうか。
+ オンラインでも、御社へのご訪問でも、△△社長のご都合に合わせます。」</div>
+</section>
+
+<!-- ==================== 第9章 ==================== -->
+<section class="chapter" id="ch9">
+    <div class="chapter-header">
+        <div class="chapter-num">Chapter 09</div>
+        <h2>KPI管理・日次運用ガイド</h2>
+        <div class="chapter-desc">マニュアルの実効性を数字で管理し、継続的に改善する</div>
+    </div>
+
+    <h3>9.1 日次KPI目標（1人あたり）</h3>
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:24px;">60〜80件</div>
+            <div class="kpi-label">架電数 / 日</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:24px;">12〜16件</div>
+            <div class="kpi-label">受付突破数 / 日<br><small>(突破率20%)</small></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:24px;">6〜8件</div>
+            <div class="kpi-label">社長接続数 / 日<br><small>(在席率50%)</small></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-value" style="font-size:24px;">1〜2件</div>
+            <div class="kpi-label">アポ取得数 / 日<br><small>(アポ率15-25%)</small></div>
+        </div>
+    </div>
+
+    <h3>9.2 重要指標の目安</h3>
+    <table>
+        <thead><tr><th>指標</th><th>目安</th><th>未達時のアクション</th></tr></thead>
+        <tbody>
+            <tr><td><strong>受付突破率</strong></td><td>20%以上</td><td>第4章を再確認、フレーズ改善</td></tr>
+            <tr><td><strong>アポ取得率（対社長接続）</strong></td><td>15%以上</td><td>第3章・第5章を再確認、訴求改善</td></tr>
+            <tr><td><strong>資料送付率（対社長接続）</strong></td><td>50%以上</td><td>アポが取れない場合でも資料送付に繋げる</td></tr>
+            <tr><td><strong>フォローアポ率</strong></td><td>10%以上</td><td>第8章を再確認、フォロートーク改善</td></tr>
+        </tbody>
+    </table>
+
+    <h3>9.3 改善PDCAサイクル</h3>
+    <div class="card">
+        <div class="flow">
+            <div class="flow-step" style="background: var(--info);">
+                <div class="step-title">Plan</div>
+                <div class="step-desc">ターゲットリスト作成<br>スクリプト決定</div>
+            </div>
+            <div class="flow-arrow">&#10132;</div>
+            <div class="flow-step" style="background: var(--success);">
+                <div class="step-title">Do</div>
+                <div class="step-desc">架電実施<br>記録蓄積</div>
+            </div>
+            <div class="flow-arrow">&#10132;</div>
+            <div class="flow-step" style="background: var(--warning);">
+                <div class="step-title">Check</div>
+                <div class="step-desc">KPI振り返り<br>パターン分析</div>
+            </div>
+            <div class="flow-arrow">&#10132;</div>
+            <div class="flow-step" style="background: var(--wine);">
+                <div class="step-title">Act</div>
+                <div class="step-desc">スクリプト修正<br>ターゲット見直し</div>
+            </div>
+        </div>
+    </div>
+
+    <h4>週次ミーティングアジェンダ（30分）</h4>
+    <table>
+        <thead><tr><th>時間</th><th>内容</th></tr></thead>
+        <tbody>
+            <tr><td>5分</td><td>先週のKPI実績報告</td></tr>
+            <tr><td>10分</td><td>成功事例の共有（どのスクリプト・フレーズが効いたか）</td></tr>
+            <tr><td>10分</td><td>失敗事例の共有と改善案の検討</td></tr>
+            <tr><td>5分</td><td>今週の目標設定とアクション確認</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ==================== 付録 ==================== -->
+<section class="chapter" id="appendix">
+    <div class="chapter-header">
+        <div class="chapter-num">Appendix</div>
+        <h2>付録</h2>
+        <div class="chapter-desc">用語集・主要銘柄・法的注意事項</div>
+    </div>
+
+    <h3>A. ワイン投資関連用語</h3>
+    <table>
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+            <tr><td><strong>ファインワイン</strong></td><td>希少性が高く、長期熟成により価値が上がる高級ワイン。投資対象となるワイン</td></tr>
+            <tr><td><strong>五大シャトー</strong></td><td>ボルドー地方のトップ5: ラフィット、マルゴー、ラトゥール、ムートン、オー・ブリオン</td></tr>
+            <tr><td><strong>Liv-ex</strong></td><td>ロンドンの世界最大ファインワイン取引所。価格指標</td></tr>
+            <tr><td><strong>ヴィンテージ</strong></td><td>ワインが造られた年（例: 2005年のラフィット）</td></tr>
+            <tr><td><strong>テロワール</strong></td><td>味わいに影響する土壌・気候・地形等の自然環境</td></tr>
+            <tr><td><strong>オルタナティブ投資</strong></td><td>株式・債券以外の代替投資（ワイン、アート、不動産等）</td></tr>
+            <tr><td><strong>ポートフォリオ</strong></td><td>投資先の組み合わせ。分散投資の考え方</td></tr>
+        </tbody>
+    </table>
+
+    <h3>B. 主要ワイン銘柄（五大シャトー）</h3>
+    <table>
+        <thead><tr><th>シャトー名</th><th>地域</th><th>特徴</th></tr></thead>
+        <tbody>
+            <tr><td><strong>シャトー・ラフィット・ロートシルト</strong></td><td>ポイヤック</td><td>最も投資価値が高い。エレガント</td></tr>
+            <tr><td><strong>シャトー・マルゴー</strong></td><td>マルゴー</td><td>「ワインの女王」。繊細で華やか</td></tr>
+            <tr><td><strong>シャトー・ラトゥール</strong></td><td>ポイヤック</td><td>力強く長熟。投資家に人気</td></tr>
+            <tr><td><strong>シャトー・ムートン・ロートシルト</strong></td><td>ポイヤック</td><td>毎年異なるアーティストラベル</td></tr>
+            <tr><td><strong>シャトー・オー・ブリオン</strong></td><td>ペサック・レオニャン</td><td>五大シャトー最古。複雑で深い</td></tr>
+        </tbody>
+    </table>
+
+    <h3>C. 法的注意事項</h3>
+    <div class="card card-warning">
+        <table>
+            <thead><tr><th>項目</th><th>注意点</th></tr></thead>
+            <tbody>
+                <tr><td><strong>断定的判断の禁止</strong></td><td>「必ず儲かります」は<strong>法律違反</strong>。「過去の実績では〜」と表現</td></tr>
+                <tr><td><strong>利益保証の禁止</strong></td><td>将来のリターン保証はNG。事実としての過去実績のみ伝える</td></tr>
+                <tr><td><strong>適合性の確認</strong></td><td>顧客の資産状況に合った提案を行う</td></tr>
+                <tr><td><strong>クーリングオフ</strong></td><td>訪問販売該当時は8日間のクーリングオフ説明義務あり</td></tr>
+                <tr><td><strong>個人情報管理</strong></td><td>架電中の個人情報は適切に管理。目的外利用禁止</td></tr>
+                <tr><td><strong>税務アドバイス禁止</strong></td><td>「経費になります」と断定しない。「顧問税理士にご確認を」</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="memo important">
+        <p style="margin-top:8px;">電話勧誘では冒頭で①会社名 ②勧誘目的であること ③サービス概要を必ず告知すること。万が一のトラブル時は上長に即報告し、単独判断しないこと。</p>
+    </div>
+</section>
+
+<!-- Footer -->
+<div style="text-align:center; padding:40px 0; color:var(--text-light); font-size:13px; border-top:1px solid var(--border); margin-top:40px;">
+    <p>WineBank 営業支援マニュアル | 初版 2025年2月</p>
+    <p style="margin-top:4px;">本マニュアルに関する問い合わせ: 営業企画部まで</p>
+</div>
+
+    </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+// Accordion
+function toggleAccordion(header) {
+    const accordion = header.parentElement;
+    accordion.classList.toggle('open');
+}
+
+// Sidebar toggle (mobile)
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+}
+function closeSidebar() {
+    if (window.innerWidth <= 900) {
+        document.getElementById('sidebar').classList.remove('open');
+    }
+}
+
+// Back to top button
+window.addEventListener('scroll', function() {
+    const btn = document.getElementById('backToTop');
+    if (window.scrollY > 400) {
+        btn.classList.add('show');
+    } else {
+        btn.classList.remove('show');
+    }
+});
+
+// Active nav highlighting
+const sections = document.querySelectorAll('.chapter');
+const navLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
+
+window.addEventListener('scroll', function() {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 100) {
+            current = section.getAttribute('id');
+        }
+    });
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+});
+</script>
+
+</body>
+</html>
